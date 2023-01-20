@@ -1,8 +1,8 @@
 -module(factorial).
 
--export([start/1, ping/4, pong/0]).
+-export([start/1, ping/3, pong/0]).
 
-ping(Current, N, Result,Pids)  when Current =< N ->
+ping(Current, N, Result)  when Current =< N ->
     Pong_PID = spawn_link(factorial, pong, []),
     Pong_PID ! {ping, self(), Current, Result},
     receive
@@ -20,5 +20,4 @@ pong() ->
     end.
 
 start(N) ->
-    Pids = [ spawn_link(factorial, pong, []) || X <- lists:seq(1, erlang:system_info(logical_processors_available)],
-    spawn(factorial, ping, [1, N, 1,Pids]).
+    spawn(factorial, ping, [1, N, 1]).
