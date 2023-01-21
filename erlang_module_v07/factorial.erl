@@ -12,6 +12,8 @@ getPid(Pids, _CurrentId) ->
 
 ping(Current, N, Result,Pids,CurrentPidId)  when Current =< N ->
     {Pong_PID,NewCurrentPidId} = getPid(Pids, CurrentPidId),
+
+    
     Pong_PID ! {ping, self(), Current, Result},
     receive
         {pong, NewResult} ->
